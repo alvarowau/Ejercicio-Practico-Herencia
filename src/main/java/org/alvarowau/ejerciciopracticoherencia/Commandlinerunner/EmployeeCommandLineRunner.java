@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class EmployeeCommandLineRunner implements CommandLineRunner {
@@ -51,45 +50,49 @@ public class EmployeeCommandLineRunner implements CommandLineRunner {
         Manager manager5 = new Manager(5L, "Miguel", "Rodríguez", "miguel.rodriguez@company.com", new Address("654 Birch St", "CityE", "CountryE", "44556"), 20, "Operations", 90000.0, 30);
         repository.save(manager5);
 
-        List<Employee> employees = repository.findAll();
 
-        log.log(Level.INFO, "Lista de empleados: ");
-        //mostrar empleados
-        for(Employee e : employees) {
-            log.log(Level.INFO, e.toString() );
-        }
-
-        log.log(Level.INFO, "buscar Empleado ");
+        findEmployeeView();
 
         log.log(Level.INFO, "Buscar Empleado que funciona");
-        Optional<Employee> employeeTrue = repository.findById(12L);
-        if(employeeTrue.isEmpty()) {
-            log.log(Level.SEVERE, "No se encontro el empleado");
-        }else{
-            employeeTrue.ifPresent(emp -> {
-                log.log(Level.INFO, emp.toString());
-            });
-        }
+        //buscar empleado que si existe
+        findEmployees(2l);
+        //buscar empleado que no funciona
+        findEmployees(123L);
 
-        log.log(Level.INFO, "Buscar Empleado que NO funciona");
-        Optional<Employee> employeeFalse = repository.findById(122L);
-        if(employeeFalse.isEmpty()) {
-            log.log(Level.SEVERE, "No se encontro el empleado");
-        }else{
-            employeeFalse.ifPresent(emp -> {
-                log.log(Level.INFO, emp.toString());
-            });
-        }
-
+        //borrar empleado
         log.log(Level.INFO, "Eliminar empleado");
         repository.deleteById(manager4.getId());
 
+        //mostrar empleados que quedan en la base de datos
+        findEmployeeView();
+
+        //borrado de todos los empleados que quedan en la base de datos
+        deleteAllEmployees();
+
+    }
+
+    private void findEmployees(Long id) {
+        log.log(Level.INFO, "Buscando empleado con ID: " + id);
+        Optional<Employee> employee = repository.findById(id);
+
+        employee.ifPresentOrElse(
+                emp -> log.log(Level.INFO, "Empleado encontrado: " + emp.toString()),
+                () -> log.log(Level.SEVERE, "No se encontró el empleado con ID: " + id)
+        );
+    }
+
+    private void findEmployeeView(){
         log.log(Level.INFO, "Lista de empleados: ");
-        //mostrar empleados
         for(Employee e : repository.findAll()) {
-            log.log(Level.INFO, e.toString() );
+            log.log(Level.INFO, e.toString());
         }
+    }
 
-
+    private void deleteAllEmployees() {
+        log.log(Level.INFO, "Eliminando empleados: ");
+        for(Employee e : repository.findAll()) {
+            log.log(Level.INFO, "Eliminando empleado : " + e.getName());
+            repository.delete(e);
+        }
     }
 }
