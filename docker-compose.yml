@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootroot
+      - MYSQL_DATABASE=springDataEjercicio
+    ports:
+      - "3308:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - mynet
+
+volumes:
+  db_data:
+
+networks:
+  mynet:
