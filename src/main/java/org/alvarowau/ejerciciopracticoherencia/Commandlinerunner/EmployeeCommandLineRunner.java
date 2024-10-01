@@ -84,7 +84,11 @@ public class EmployeeCommandLineRunner implements CommandLineRunner {
         log.log(Level.INFO, "Eliminar empleado");
         repository.deleteById(manager4.getId());
 
-
+        log.log(Level.INFO, "Lista de empleados: ");
+        //mostrar empleados
+        for(Employee e : repository.findAll()) {
+            log.log(Level.INFO, e.toString() );
+        }
 
 
     }
