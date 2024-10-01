@@ -18,8 +18,7 @@ public class Employee {
     public Employee() {
     }
 
-    public Employee(Long id, String name, String lastName, String email, Address address) {
-        this.id = id;
+    public Employee( String name, String lastName, String email, Address address) {
         this.name = name;
         this.lastName = lastName;
         this.email = email;

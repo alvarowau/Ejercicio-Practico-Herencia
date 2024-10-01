@@ -20,8 +20,8 @@ public class Engineer extends Employee {
         this.certifications = certifications;
     }
 
-    public Engineer(Long id, String name, String lastName, String email, Address address, String specialty, int experienceYears, String programmingLanguages, String certifications) {
-        super(id, name, lastName, email, address);
+    public Engineer( String name, String lastName, String email, Address address, String specialty, int experienceYears, String programmingLanguages, String certifications) {
+        super( name, lastName, email, address);
         this.specialty = specialty;
         this.experienceYears = experienceYears;
         this.programmingLanguages = programmingLanguages;
